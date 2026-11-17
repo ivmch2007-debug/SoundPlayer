@@ -8,15 +8,20 @@ public class Playlist {
 
     private String id;
     private String name;
+    private String description;
+    private Mood mood;
     private List<String> songIds;
 
     public Playlist() {
         this.songIds = new ArrayList<>();
     }
 
-    public Playlist(String id, String name, List<String> songIds) {
+    public Playlist(String id, String name, String description,
+                    Mood mood, List<String> songIds) {
         this.id = id;
         this.name = name;
+        this.description = description;
+        this.mood = mood;
 
         if (songIds != null) {
             this.songIds = new ArrayList<>(songIds);
@@ -41,8 +46,24 @@ public class Playlist {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
+    }
+
     public List<String> getSongIds() {
-        return songIds;
+        return new ArrayList<>(songIds);
     }
 
     public void setSongIds(List<String> songIds) {
@@ -52,7 +73,6 @@ public class Playlist {
             this.songIds = new ArrayList<>();
         }
     }
-
 
     public boolean addSong(String songId) {
         if (songId == null || songIds.contains(songId)) {

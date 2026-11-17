@@ -9,8 +9,8 @@ public class Note {
     }
 
     public Note(double frequency, int durationMs) {
-        this.frequency = frequency;
-        this.durationMs = durationMs;
+        setFrequency(frequency);
+        setDurationMs(durationMs);
     }
 
     public double getFrequency() {
@@ -18,6 +18,10 @@ public class Note {
     }
 
     public void setFrequency(double frequency) {
+        if (frequency <= 0) {
+            throw new IllegalArgumentException("Frequency must be greater than zero");
+        }
+
         this.frequency = frequency;
     }
 
@@ -26,7 +30,10 @@ public class Note {
     }
 
     public void setDurationMs(int durationMs) {
+        if (durationMs <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than zero");
+        }
+
         this.durationMs = durationMs;
     }
 }
-

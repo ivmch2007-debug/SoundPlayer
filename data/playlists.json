@@ -1,1 +1,1 @@
-[]
+[{"id":"P001","name":"Good Vibes","description":"Canciones alegres para empezar bien el día","mood":"HAPPY","songIds":["S001","S007"]},{"id":"P002","name":"Relax Time","description":"Música tranquila para descansar","mood":"CALM","songIds":["S003","S006"]},{"id":"P003","name":"Emotions","description":"Canciones para momentos especiales","mood":"ROMANTIC","songIds":["S002","S005","S008"]}]
