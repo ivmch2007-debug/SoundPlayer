@@ -32,6 +32,9 @@ public class SoundPlayerController {
         this.library = library;
         this.playback = playback;
         this.albumGenerator = albumGenerator;
+
+        this.playback.setOnSongStart(song -> view.showMessage("Reproduciendo: " + song.getTitle())
+        );
     }
 
     // MENU PRINCIPAL
@@ -329,6 +332,7 @@ public class SoundPlayerController {
                         }
                         break;
 
+
                     case 2:
                         showPlaylistsWithDetails();
 
@@ -338,27 +342,20 @@ public class SoundPlayerController {
                                     "ID de la playlist: "
                             );
 
-                            Playlist playlist =
-                                    library.getPlaylistById(playlistId);
+                            Playlist playlist = library.getPlaylistById(playlistId);
 
                             if (playlist == null) {
                                 view.showError("La playlist no existe.");
                             } else {
-                                for (String id : playlist.getSongIds()) {
+                                view.showMessage(
+                                        "Reproduciendo playlist: " + playlist.getName()
+                                );
 
-                                    Song song = library.getSongById(id);
-
-                                    if (LibraryManager.isReallyPlayable(song)) {
-                                        view.showMessage(
-                                                "Reproduciendo: " + song.getTitle()
-                                        );
-
-                                        playback.playSong(id);
-                                    }
-                                }
+                                playback.playPlaylist(playlistId);
                             }
                         }
                         break;
+
                 }
 
             } catch (IllegalArgumentException | IllegalStateException e) {
