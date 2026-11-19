@@ -174,8 +174,9 @@ public class LibraryManager {
         return playlist;
     }
 
+
     private void replacePlaylist(Playlist playlist) {
-        playlistsDAO.deletePlaylist(playlist.getId());
-        playlistsDAO.addPlaylist(playlist);
+        playlistsDAO.updatePlaylist(playlist);
     }
+
 }
