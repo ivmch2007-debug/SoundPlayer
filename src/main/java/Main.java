@@ -1,68 +1,55 @@
+
+import controller.SoundPlayerController;
 import dao.JsonSongsDAO;
 import dao.JsonPlaylistsDAO;
-import model.Song;
-import model.Playlist;
-import model.Mood;
-
-import java.util.ArrayList;
+import dao.SongsDAO;
+import dao.PlaylistsDAO;
+import manager.LibraryManager;
+import manager.PlaybackManager;
+import manager.AlbumGenerator;
+import view.ConsoleView;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        JsonSongsDAO songsDAO = new JsonSongsDAO();
-        JsonPlaylistsDAO playlistsDAO = new JsonPlaylistsDAO();
+        // Crear los DAO para guardar y cargar los datos JSON
+        SongsDAO songsDAO = new JsonSongsDAO();
+        PlaylistsDAO playlistsDAO = new JsonPlaylistsDAO();
 
-        // Crear una canción de prueba
-        Song testSong = new Song(
-                "TEST001",
-                "Temporary Song",
-                "Test Artist",
-                120,
-                Mood.HAPPY,
-                "Pop",
-                false,
-                new ArrayList<>()
+        // Crear el manager de la biblioteca
+        LibraryManager library = new LibraryManager(
+                songsDAO, playlistsDAO
         );
 
-        // Añadir la canción
-        songsDAO.addSong(testSong);
+        // Crear el sintetizador de sonido
+        SoundSynth synth = new SoundSynth();
 
-        System.out.println("Song added: "
-                + (songsDAO.getSongById("TEST001") != null));
-
-        // Crear una playlist de prueba
-        ArrayList<String> songIds = new ArrayList<>();
-        songIds.add("TEST001");
-
-        Playlist testPlaylist = new Playlist(
-                "TESTP001",
-                "Temporary Playlist",
-                "Playlist for testing",
-                Mood.HAPPY,
-                songIds
+        // Crear el manager de reproduccion
+        PlaybackManager playback = new PlaybackManager(
+                library,
+                (frequency, durationMs) -> synth.makeSound(
+                        WaveType.SINE,
+                        (int) Math.round(frequency),
+                        durationMs
+                )
         );
 
-        // Añadir la playlist
-        playlistsDAO.addPlaylist(testPlaylist);
+        // Crear el generador de albumes
+        AlbumGenerator albumGenerator = new AlbumGenerator(library);
 
-        System.out.println("Playlist added: "
-                + (playlistsDAO.getPlaylistById("TESTP001") != null));
+        // Crear la vista de consola
+        ConsoleView view = new ConsoleView();
 
-        // Eliminar los datos de prueba
-        playlistsDAO.deletePlaylist("TESTP001");
-        songsDAO.deleteSong("TEST001");
+        // Crear el controlador
+        SoundPlayerController controller = new SoundPlayerController(
+                view,
+                library,
+                playback,
+                albumGenerator
+        );
 
-        System.out.println("Song deleted: "
-                + (songsDAO.getSongById("TEST001") == null));
-
-        System.out.println("Playlist deleted: "
-                + (playlistsDAO.getPlaylistById("TESTP001") == null));
-
-        System.out.println("\nFinal songs: "
-                + songsDAO.getAllSongs().size());
-
-        System.out.println("Final playlists: "
-                + playlistsDAO.getAllPlaylists().size());
+        // Iniciar la aplicacion
+        controller.run();
     }
 }
