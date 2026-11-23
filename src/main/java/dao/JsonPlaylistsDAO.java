@@ -96,6 +96,32 @@ public class JsonPlaylistsDAO implements PlaylistsDAO {
         savePlaylists(playlists);
     }
 
+
+    @Override
+    public void updatePlaylist(Playlist playlist) {
+        if (playlist == null || playlist.getId() == null) {
+            throw new IllegalArgumentException("Invalid playlist");
+        }
+
+        ArrayList<Playlist> playlists = getAllPlaylists();
+        boolean found = false;
+
+        for (int i = 0; i < playlists.size(); i++) {
+            if (playlist.getId().equals(playlists.get(i).getId())) {
+                playlists.set(i, playlist);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw new IllegalArgumentException("Playlist not found");
+        }
+
+        savePlaylists(playlists);
+    }
+
+
     @Override
     public void deletePlaylist(String id) {
         if (id == null) {
