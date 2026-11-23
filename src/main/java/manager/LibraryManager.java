@@ -155,6 +155,10 @@ public class LibraryManager {
     public int getNonPlayableSongCount(String playlistId) {
         Playlist playlist = requirePlaylist(playlistId);
 
+        if (playlist.getSongIds() == null) {
+            return 0;
+        }
+
         return playlist.getSongIds().size() -
                 getPlayableSongCount(playlistId);
     }

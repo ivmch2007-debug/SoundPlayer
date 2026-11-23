@@ -1,4 +1,3 @@
-
 import controller.SoundPlayerController;
 import dao.JsonSongsDAO;
 import dao.JsonPlaylistsDAO;
@@ -8,6 +7,8 @@ import manager.LibraryManager;
 import manager.PlaybackManager;
 import manager.AlbumGenerator;
 import view.ConsoleView;
+import audio.SoundSynth;
+import audio.WaveType;
 
 public class Main {
 
