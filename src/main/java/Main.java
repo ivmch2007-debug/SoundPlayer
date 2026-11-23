@@ -13,19 +13,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Crear los DAO
+        // Crear los DAO para guardar y cargar los datos JSON
         SongsDAO songsDAO = new JsonSongsDAO();
         PlaylistsDAO playlistsDAO = new JsonPlaylistsDAO();
 
-        // Crear el gestor de biblioteca
+        // Crear el manager de la biblioteca
         LibraryManager library = new LibraryManager(
                 songsDAO, playlistsDAO
         );
 
-        // Crear el sintetizador
+        // Crear el sintetizador de sonido
         SoundSynth synth = new SoundSynth();
 
-        // Crear el gestor de reproduccion
+        // Crear el manager de reproduccion
         PlaybackManager playback = new PlaybackManager(
                 library,
                 (frequency, durationMs) -> synth.makeSound(
@@ -38,19 +38,18 @@ public class Main {
         // Crear el generador de albumes
         AlbumGenerator albumGenerator = new AlbumGenerator(library);
 
-        // Crear la vista
+        // Crear la vista de consola
         ConsoleView view = new ConsoleView();
 
         // Crear el controlador
-        SoundPlayerController controller =
-                new SoundPlayerController(
-                        view,
-                        library,
-                        playback,
-                        albumGenerator
-                );
+        SoundPlayerController controller = new SoundPlayerController(
+                view,
+                library,
+                playback,
+                albumGenerator
+        );
 
-        // Iniciar el programa
+        // Iniciar la aplicacion
         controller.run();
     }
 }
